@@ -1,22 +1,3 @@
-#
-#
-#
-#
-#
-#
-Player:
-  BossBar:
-    enable: true
-    color: ""
-    NewPlayer:
-      playerNickName: ""
-      enable: false
-  onJoin:
-    teleportToSpawn: true
-  changeGameMode:
-    enable: true
-    gamemode: ADVENTURE
-#
 customJoinMessage:
   enable: true
   owner:
@@ -32,10 +13,3 @@ customJoinMessage:
         message: "&6&lN&e&lL &8| &cOwner &4%s &c join the server!"
       onQuit:
         message: "&6&lN&e&lL &8| &cOwner &4%s &c quit the server!"
-World:
-  voidTeleport: true
-  spawn:
-    worldName: ""
-    x: ""
-    y: ""
-    z: ""

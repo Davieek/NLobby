@@ -1,0 +1,5 @@
+chat:
+  owner:
+    prefix: ""
+    prefixColor: "&4"
+    nicknameColor: "&c"
