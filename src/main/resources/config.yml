@@ -1,0 +1,38 @@
+#
+#
+#
+#
+#
+#
+Player:
+  onJoin:
+    teleportToSpawn: true
+  changeGameMode:
+    enable: true
+    gamemode: ADVENTURE
+#
+chat:
+
+#
+customJoinMessage:
+  enable: true
+  owner:
+    # nlobby.joinmessage.owner
+    permission: "owner"
+    chat:
+      enable: true
+      joinMessage: "&6&lN&e&lL &8| &cOwner &4%s &c join the server!"
+      quitMessage: "&6&lN&e&lL &8| &cOwner &4%s &c quit the server!"
+    ActionBar:
+      enable: true
+      onJoin:
+        message: "&6&lN&e&lL &8| &cOwner &4%s &c join the server!"
+      onQuit:
+        message: "&6&lN&e&lL &8| &cOwner &4%s &c quit the server!"
+World:
+  voidTeleport: true
+  spawn:
+    worldName: ""
+    x: ""
+    y: ""
+    z: ""
