@@ -1,0 +1,9 @@
+Ranks:
+  owner: # nlobby.chat.ranks.owner
+    chat:
+    tag:
+      enable: true
+      lineOne: "&4Owner"
+      # %s is the player displayname (nickname)
+      lineTwo: "&3%s"
+    tab:

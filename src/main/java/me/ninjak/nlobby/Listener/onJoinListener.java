@@ -4,20 +4,22 @@ import me.ninjak.nlobby.ActionBar;
 import me.ninjak.nlobby.ChatUtils;
 import me.ninjak.nlobby.Manager.FileManager;
 import me.ninjak.nlobby.NLobby;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 public class onJoinListener implements Listener {
     private NLobby plugin;
+    private static Map<UUID, List<ArmorStand>> armorStands = new HashMap<>();
+    private static Map<UUID, List<Silverfish>> silverFish = new HashMap<>();
 
     public onJoinListener(NLobby plugin) {
         this.plugin = plugin;
@@ -25,8 +27,6 @@ public class onJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         var fileManager = plugin.getFileManager();
-        Bukkit.broadcastMessage("chuj");
-
         // config file configuration
         var config = fileManager.getConfig("config");
 
@@ -50,7 +50,6 @@ public class onJoinListener implements Listener {
             // if gamemode is not a valid, it change value in config file to the default
             for (String gm : gamemodeList) {
                 if (!Objects.equals(gamemode, gm)) {
-                    System.out.println("N ");
                     config.set("Player.changeGameMode.gamemode", "ADVENTURE");
                 }
             }
@@ -115,6 +114,73 @@ public class onJoinListener implements Listener {
             }
         }
 
+        // Effect on join the server
+        if (player.hasPermission("nlobby.join.effect")) {
+            var location = player.getLocation();
+            var fireworks = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+            var fireworksmeta = fireworks.getFireworkMeta();
+            fireworksmeta.addEffect(FireworkEffect.builder().withColor(Color.WHITE).build());
+            fireworks.setFireworkMeta(fireworksmeta);
+        }
+
+        var configRank = fileManager.getConfig("ranks");
+        var rankSection = configRank.getConfigurationSection("Ranks");
+        if (rankSection != null) {
+            for (String rankKey : rankSection.getKeys(false)) {
+                if (player.hasPermission(rankKey)) {
+                    var tagActive = rankSection.getBoolean(rankKey + ".tag.enable");
+                    if (tagActive) {
+                        var lineOne = rankSection.getString(rankKey + ".tag.lineOne");
+                        var lineTwo = rankSection.getString(rankKey + ".tag.lineTwo");
+
+                        if (lineTwo != null && lineOne != null) {
+                            var hidePlayerNickName = plugin.getHidePlayerNickName();
+                            hidePlayerNickName.hidePlayerName(player);
+                            var playerLocation = player.getEyeLocation().add(0, 0.5, 0);
+                            var armorStand = (ArmorStand) playerLocation.getWorld().spawn(playerLocation, ArmorStand.class);
+                            armorStand.setGravity(false);
+                            armorStand.setCanPickupItems(false);
+                            armorStand.setCustomName(ChatUtils.fixColor(String.format(lineTwo, player.getDisplayName())));
+                            armorStand.setCustomNameVisible(true);
+                            armorStand.setVisible(false);
+                            armorStand.setInvulnerable(true);
+                            armorStand.setSilent(true);
+                            armorStand.setSmall(true);
+                            armorStand.setAI(false);
+                            armorStand.setCollidable(false);
+                            armorStand.setMarker(true);
+
+                            EntityType type = EntityType.ARMOR_STAND;
+                            ArmorStand armorStand2 = (ArmorStand) armorStand.getWorld().spawnEntity(armorStand.getLocation().add(0, 0.25, 0), type);
+                            armorStand2.setGravity(false);
+                            armorStand2.setCustomName(ChatUtils.fixColor(lineOne));
+                            armorStand2.setCustomNameVisible(true);
+                            armorStand2.setInvisible(true);
+                            armorStand2.setSmall(true);
+                            armorStand2.setMarker(true);
+                            armorStand2.setInvulnerable(true);
+
+                            EntityType type2 = EntityType.SILVERFISH;
+                            Silverfish silverfish = (Silverfish) armorStand.getWorld().spawnEntity(armorStand.getLocation(), type2);
+                            silverfish.setInvulnerable(true);
+                            silverfish.setInvisible(true);
+                            silverfish.setSilent(true);
+                            silverfish.setPassenger(armorStand2);
+                            armorStand.addPassenger(silverfish);
+                            player.addPassenger(armorStand);
+
+                            armorStands.putIfAbsent(player.getUniqueId(), new ArrayList<>());
+                            armorStands.get(player.getUniqueId()).add(armorStand);
+                            armorStands.get(player.getUniqueId()).add(armorStand2);
+                            silverFish.putIfAbsent(player.getUniqueId(), new ArrayList<>());
+                            silverFish.get(player.getUniqueId()).add(silverfish);
+                        }
+
+                    }
+                }
+
+            }
+        }
 //        // player teleport to spawn
 //        var spawnTeleportActive = config.getBoolean("Player.onJoin.teleportToSpawn");
 //        if (spawnTeleportActive) {
@@ -131,5 +197,11 @@ public class onJoinListener implements Listener {
 
 
 
+    }
+    public static Map<UUID, List<ArmorStand>> getArmorStands() {
+        return armorStands;
+    }
+    public static Map<UUID, List<Silverfish>> getSilverFish() {
+        return silverFish;
     }
 }

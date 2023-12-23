@@ -10,13 +10,11 @@ Player:
     color: ""
     NewPlayer:
       playerNickName: ""
-      enable: false
   onJoin:
     teleportToSpawn: true
   changeGameMode:
     enable: true
     gamemode: ADVENTURE
-#
 customJoinMessage:
   enable: true
   owner:
