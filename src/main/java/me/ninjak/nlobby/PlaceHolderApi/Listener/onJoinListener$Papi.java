@@ -1,4 +1,5 @@
-package me.ninjak.nlobby.Listener;
+package me.ninjak.nlobby.PlaceHolderApi.Listener;
+
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ninjak.nlobby.API.NPlaceHolder;
@@ -13,11 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.*;
 
-public class onJoinListener implements Listener {
+public class onJoinListener$Papi implements Listener {
     private NLobby plugin;
 
 
-    public onJoinListener(NLobby plugin) {
+    public onJoinListener$Papi(NLobby plugin) {
         this.plugin = plugin;
     }
     @EventHandler
@@ -77,6 +78,7 @@ public class onJoinListener implements Listener {
                                     e.setJoinMessage("");
                                 if (joinMessage != null) {
                                     joinMessage = NPlaceHolder.formatPlayerName(player, joinMessage);
+                                    joinMessage = PlaceholderAPI.setPlaceholders(player, joinMessage);
                                     e.setJoinMessage(ChatUtils.fixColor(joinMessage));
                                 }
 
@@ -89,6 +91,7 @@ public class onJoinListener implements Listener {
                                     var joinMessage = rankSection.getString(rankKey + ".ActionBar.onJoin.message");
                                     if (joinMessage != null) {
                                         joinMessage = NPlaceHolder.formatPlayerName(player, joinMessage);
+                                        joinMessage = PlaceholderAPI.setPlaceholders(player, joinMessage);
                                         ActionBar.send(player1, ChatUtils.fixColor(joinMessage));
                                     }
                                 }
@@ -112,7 +115,7 @@ public class onJoinListener implements Listener {
 
 
         // Create custom player tag
-        var playerTags = plugin.getPlayerTags();
+        var playerTags = plugin.getPlayerTags$Papi();
         playerTags.createTag(player);
 
 
@@ -126,25 +129,13 @@ public class onJoinListener implements Listener {
                 lineOne = NPlaceHolder.formatPlayerName(player, lineOne);
                 lineTwo = NPlaceHolder.formatPlayerName(player, lineTwo);
 
+                lineOne = PlaceholderAPI.setPlaceholders(player, lineOne);
+                lineTwo = PlaceholderAPI.setPlaceholders(player, lineTwo);
+
                 player.sendTitle(ChatUtils.fixColor(lineOne), ChatUtils.fixColor(lineTwo), 30, 8, 20);
             }
 
         }
-
-//        // player teleport to spawn
-//        var spawnTeleportActive = config.getBoolean("Player.onJoin.teleportToSpawn");
-//        if (spawnTeleportActive) {
-//            var worldName = config.getString("World.spawn.worldName");
-//            var worldX = config.getInt("World.spawn.x");
-//            var worldY = config.getInt("World.spawn.y");
-//            var worldz = config.getInt("World.spawn.z");
-//            if (worldName != null) {
-//                var world = Bukkit.getWorld(worldName);
-//                player.teleport(new Location(world, worldX, worldY, worldz));
-//            }
-//        }
-
-
 
 
     }

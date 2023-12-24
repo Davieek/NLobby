@@ -2,23 +2,28 @@ package me.ninjak.nlobby.Listener;
 
 import me.ninjak.nlobby.NLobby;
 import me.ninjak.nlobby.player.PlayerTags$2;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 
-public class onDeathListener implements Listener {
+public class onLoadListener implements Listener {
+
     private NLobby plugin;
-    public onDeathListener(NLobby plugin) {
+
+    public onLoadListener(NLobby plugin) {
         this.plugin = plugin;
     }
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        var entity = event.getEntity();
-        if (entity instanceof Player) {
-            var player = (Player) entity;
+    public void onServerLoaded(ServerLoadEvent event) {
+        var players = Bukkit.getOnlinePlayers();
+
+        for (Player player : players) {
+            var playerTags = plugin.getPlayerTags();
             var playerTag$2 = new PlayerTags$2();
             playerTag$2.removeTag(player);
+            playerTags.createTag(player);
         }
     }
 }

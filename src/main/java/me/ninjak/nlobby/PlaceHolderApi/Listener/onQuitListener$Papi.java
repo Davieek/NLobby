@@ -1,5 +1,6 @@
-package me.ninjak.nlobby.Listener;
+package me.ninjak.nlobby.PlaceHolderApi.Listener;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.ninjak.nlobby.API.NPlaceHolder;
 import me.ninjak.nlobby.player.PlayerTags$2;
 import me.ninjak.nlobby.ui.ActionBar;
@@ -12,10 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 
-public class onQuitListener implements Listener {
+public class onQuitListener$Papi implements Listener {
     private NLobby plugin;
 
-    public onQuitListener(NLobby plugin) {
+    public onQuitListener$Papi(NLobby plugin) {
         this.plugin = plugin;
     }
 
@@ -48,6 +49,7 @@ public class onQuitListener implements Listener {
                                     event.setQuitMessage("");
                                 if (quitMessage != null) {
                                     quitMessage = NPlaceHolder.formatPlayerName(player, quitMessage);
+                                    quitMessage = PlaceholderAPI.setPlaceholders(player, quitMessage);
                                     event.setQuitMessage(ChatUtils.fixColor(quitMessage));
                                 }
                             }
@@ -59,6 +61,7 @@ public class onQuitListener implements Listener {
                                     var quitMessage = rankSection.getString(rankKey + ".ActionBar.onQuit.message");
                                     if (quitMessage != null) {
                                         quitMessage = NPlaceHolder.formatPlayerName(player, quitMessage);
+                                        quitMessage = PlaceholderAPI.setPlaceholders(player, quitMessage);
                                         ActionBar.send(player1, ChatUtils.fixColor(quitMessage));
                                     }
 

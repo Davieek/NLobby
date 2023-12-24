@@ -1,9 +1,25 @@
+# PlaceholderApi don't work for tag ;/
+playerTagConfig:
+  hideIsSneak: true
+  visualToPlayer: false
 Ranks:
-  owner: # nlobby.chat.ranks.owner
+  owner: #  for players with nlobby.ranks.owner permission
+    chat:
+      prefix: ""
+      prefixColor: "&4"
+      nicknameColor: "&c"
+      nickNameFormat: "%playerName%"
+    tag:
+      enable: true
+      lineOne: "&4🔥 Owner"
+      # %s is the player displayname (nickname)
+      lineTwo: "&8&l(&61✯&8&l) &7%playerName%"
+    tab:
+  default: # for all online players
     chat:
     tag:
       enable: true
-      lineOne: "&4Owner"
+      lineOne: "&7🌴 Player"
       # %s is the player displayname (nickname)
-      lineTwo: "&3%s"
+      lineTwo: "&8&l(&61✯&8&l) &7%playerName%"
     tab:

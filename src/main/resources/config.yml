@@ -2,14 +2,11 @@
 #
 #
 #
-#
-#
+Title:
+  enable: true
+  lineOne: "&7Hello &6%player_name%"
+  lineTwo: "&7On the server"
 Player:
-  BossBar:
-    enable: true
-    color: ""
-    NewPlayer:
-      playerNickName: ""
   onJoin:
     teleportToSpawn: true
   changeGameMode:
@@ -22,14 +19,14 @@ customJoinMessage:
     permission: "owner"
     chat:
       enable: true
-      joinMessage: "&6&lN&e&lL &8| &cOwner &4%s &c join the server!"
-      quitMessage: "&6&lN&e&lL &8| &cOwner &4%s &c quit the server!"
+      joinMessage: "&6&lN&e&lL &8| &cOwner &4%playerName% &c join the server!"
+      quitMessage: "&6&lN&e&lL &8| &cOwner &4%playerName% &c quit the server!"
     ActionBar:
       enable: true
       onJoin:
-        message: "&6&lN&e&lL &8| &cOwner &4%s &c join the server!"
+        message: "&6&lN&e&lL &8| &cOwner &4%playerName% &c join the server!"
       onQuit:
-        message: "&6&lN&e&lL &8| &cOwner &4%s &c quit the server!"
+        message: "&6&lN&e&lL &8| &cOwner &4%playerName% &c quit the server!"
 World:
   voidTeleport: true
   spawn:
@@ -37,3 +34,13 @@ World:
     x: ""
     y: ""
     z: ""
+ItemOnJoin:
+  0:
+    itemName: ""
+    item: COMPASS
+    itemLore:
+      - ""
+      - ""
+    itemCMD: ""
+    interact: RIGHT_CLICK
+CustomMessage:
